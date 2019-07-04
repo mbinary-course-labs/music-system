@@ -30,6 +30,12 @@
 
 部分前端页面，登录页面借鉴于 @Indigo6, @Eliasthunderdog
 
+## 设计
+大致 概念模型如下，挺简单的，不过在实现 数据库模型时略有不同，详情见 `imusic/music-system/models.py`
+
+![](images/design-cdf.png)
+
 ## 展示
 ![](images/music.gif)
 ![](images/login.gif)
+
