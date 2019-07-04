@@ -1,0 +1,9 @@
+<html>
+  <body>
+    {% extends "music_system/base.html" %}
+    {% block system_name %} IMusic {% endblock %}
+    {% block func3%} <a href="{% url 'music_system:search_music' %}" class="list-group-item list-group-item-action bg-light">Music</a> {% endblock %}
+  </body>
+    {% block func1%} <a href="{% url 'music_system:search_album' %}"  class="list-group-item list-group-item-action bg-light">Album</a> {% endblock %}
+    {% block func2%} <a href="{% url 'music_system:search_artist' %}" class="list-group-item list-group-item-action bg-light">Artist</a> {% endblock %}
+</html>

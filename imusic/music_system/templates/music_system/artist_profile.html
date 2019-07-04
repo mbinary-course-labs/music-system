@@ -1,0 +1,109 @@
+<html>
+    <head>
+        {% extends "music_system/base.html" %}
+    </head>
+    <body>
+        {% block func_unit %}
+        {% if info %}
+        <div style="margin-left:35px" class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{info}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% else %}
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        <h2 class="mt-4" style="margin-left:25px">Personal Info</h2>
+        <table style="margin-top:20px;margin-left:20px;width:65%;" class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th style="width:12%">id</th>
+                    <th style="width:12%">name</th>
+                    <th style="width:58%">desc</th>
+                    <th style="width:18%">date</th>
+                </tr>
+            </thead>
+            <tbod>
+            <tr>
+                <td>{{ artist.artistId}}</td>
+                <td>{{ artist.name}}</td>
+                <td>{{ artist.desc}}</td>
+                <td>{{ artist.date }}</td>
+            </tr>
+            </tbody>
+        </table>
+        {% else %}
+        <span>You haven't log in, please click the upright menu button to log in</span>
+        {% endif %}
+
+        {% if musics %}
+        <h3>Your music</h3>
+        <table style="margin-top:25px;margin-left:25px;width:65%;" class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th style="width:25%">id</th>
+                    <th style="width:25%">name</th>
+                    <th style="width:25%">album</th>
+                    <th style="width:25%">artist</th>
+                </tr>
+            </thead>
+            <tbod>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {% for music in musics %}
+            <tr>
+                <td>{{ music.musicId}}</td>
+                <td><a href="music/{{music.musicId}}">{{ music.name}}</a></td>
+                <td>{{ music.album.name}}</td>
+                <td>
+                    <ul>
+                        {% for artist in music.artists %}
+                        <li><a href="artist/{{artist.artistId}}">{{artist.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+
+        {% if albums %}
+        <h3>Your albums</h3>
+        <table style="margin-top:20px;margin-left:20px;width:65%;" class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th style="width:8%">id</th>
+                    <th style="width:8%">name</th>
+                    <th style="width:12%">artist</th>
+                    <th style="width:60%">desc</th>
+                    <th style="width:12%">date</th>
+                </tr>
+            </thead>
+            <tbod>
+            {% for album in albums %}
+            <tr>
+                <td>{{ album.albumId}}</td>
+                <td><a href="album/{{album.albumId}}">{{ album.name}}</a></td>
+                <td>
+                    <ul>
+                        {% for artist in album.artists %}
+                        <li><a href="artist/{{artist.artistId}}">{{artist.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+
+                </td>
+                <td>{{ album.desc}}</td>
+                <td>{{ album.date }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+        {% endblock %}
+    </body>
+</html>

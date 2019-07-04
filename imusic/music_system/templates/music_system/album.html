@@ -1,0 +1,73 @@
+<html>
+    <head>
+        {% extends "music_system/main.html" %}
+    </head>
+    <body>
+        {% block func_unit %}
+        <h2 class="mt-4" style="margin-left:20px">Album</h2>
+        <form name="form1" style="margin-top:20px;">
+            <div class="row">
+                <div class="form-group col-md6" style="margin-left:35px;margin-right:10px">
+                    <label for="formGroupExampleInput">id</label>
+                    <input class="form-control" type="text" name="albumId" value=""/>
+                </div>
+                <div class="form-group col-md6" style="margin-left:35px;margin-right:10px">
+                    <label for="formGroupExampleInput">name</label>
+                    <input class="form-control" type="text" name="name" value=""/>
+                </div>
+                <div class="col">
+                    <div class="btn-group" style="margin-top:32px">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">operation
+                            <span class="caret"></span>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="navbarDrop">
+                            <input class="dropdown-item" type="submit" value="search" onclick="form1.action= '{% url 'music_system:search_album'%}';"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        {% if info %}
+        <div style="margin-left:35px" class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{info}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% else %}
+        {% endif %}
+        <table style="margin-top:20px;margin-left:20px;width:65%;" class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th style="width:8%">id</th>
+                    <th style="width:8%">name</th>
+                    <th style="width:12%">artist</th>
+                    <th style="width:60%">desc</th>
+                    <th style="width:12%">date</th>
+                </tr>
+            </thead>
+            {% if albums %}
+            <tbod>
+            {% for album in albums %}
+            <tr>
+                <td>{{ album.albumId}}</td>
+                <td><a href="album/{{album.albumId}}">{{ album.name}}</a></td>
+                <td>
+                    <ul>
+                        {% for artist in album.artists %}
+                        <li><a href="artist/{{artist.artistId}}">{{artist.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+
+                </td>
+                <td>{{ album.desc}}</td>
+                <td>{{ album.date }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        {% endif %}
+        {% endblock %}
+    </body>
+</html>

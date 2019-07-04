@@ -1,0 +1,113 @@
+<html>
+    <head>
+        {% extends "music_system/base.html" %}
+    </head>
+    <body>
+        {% block func_unit %}
+        {% if info %}
+        <div style="margin-left:35px" class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{info}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% else %}
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        <h2 class="mt-4" style="margin-left:25px">Personal Info</h2>
+        <table style="margin-top:30px;margin-left:35px;width:73.8%;" class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th style="width:25%">id</th>
+                    <th style="width:25%">name</th>
+                    <th style="width:25%">isVip</th>
+                    <th style="width:25%">date</th>
+                </tr>
+            </thead>
+            <tbod>
+            <tr>
+                <td>{{ user_profile.userId}}</td>
+                <td>{{ user_profile.name}}</td>
+                <td>{{ user_profile.isVip}}</td>
+                <td>{{ user_profile.date}}</td>
+            </tr>
+            </tbody>
+        </table>
+        {% else %}
+        <span>You haven't log in, please click the upright menu button to log in</span>
+        {% endif %}
+
+        {% if musics %}
+        <h3>Music</h3>
+        <table style="margin-top:25px;margin-left:25px;width:65%;" class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th style="width:25%">id</th>
+                    <th style="width:25%">name</th>
+                    <th style="width:25%">album</th>
+                    <th style="width:25%">artist</th>
+                </tr>
+            </thead>
+            <tbod>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {% for music in musics %}
+            <tr>
+                <td>{{ music.musicId}}</td>
+                <td><a href="music/{{music.musicId}}">{{ music.name}}</a></td>
+                <td>{{ music.album.name}}</td>
+                <td>
+                    <ul>
+                        {% for artist in music.artists %}
+                        <li><a href="artist/{{artist.artistId}}">{{artist.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+
+        {% if vipMusics %}
+        <h3>VIP Music</h3>
+        <div style="margin-left:35px" class="alert alert-warning alert-dismissible fade show" role="alert">
+            <a href="vip/">Click here</a> to become a VIP and access the following VIP music.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <table style="margin-top:25px;margin-left:25px;width:65%;" class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th style="width:25%">id</th>
+                    <th style="width:25%">name</th>
+                    <th style="width:25%">album</th>
+                    <th style="width:25%">artist</th>
+                </tr>
+            </thead>
+            <tbod>
+            {% for music in vipMusics %}
+            <tr>
+                <td>{{ music.musicId}}</td>
+                <td><a href="music/{{music.musicId}}">{{ music.name}}</a></td>
+                <td>{{ music.album.name}}</td>
+                <td>
+                    <ul>
+                        {% for artist in music.artists %}
+                        <li><a href="artist/{{artist.artistId}}">{{artist.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+        {% endblock %}
+    </body>
+</html>

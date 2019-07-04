@@ -1,0 +1,127 @@
+{#<!DOCTYPE html>#}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>业务统计 | 银行系统</title>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+</head>
+<body>
+    <div>
+        <form name="form1" style="margin-top:20px;">
+            <select name="service" size="2">
+            <option value="money" selected="selected">total money</option >
+            <option value="client">client number</option >
+            </select>
+            <select name="accountType" size="2">
+            <option value="depositAccount" selected="selected">deposit account</option >
+            <option value="checkAccount">check account</option >
+            </select>
+            <select name="timeSpan" size="2">
+            <option value="month" selected="selected">month</option >
+            <option value="year">year</option >
+            </select>
+            <input  type="submit" value="summary" onclick="form1.action= '{% url 'bank_manage:summary'%}';"/>
+            <a style="float:right" href="{% url 'music_system:superuser' %}">return</a>
+        </form>
+    </div>
+
+    <div id="chart1" style="height:300px;"></div>
+    <div id="chart2" style="height:300px;"></div>
+        
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var ch1 = echarts.init(document.getElementById('chart1'));
+        // 饼状图
+        var option = {
+            title : {
+                text: {{ pieTitle|safe}},
+                x:'center'
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"  //鼠标悬停显示百分比
+                //formatter: '{b}:{c}<br/>{b}:{c}'
+            },
+
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: {{ branchNames|safe }}
+            },
+            series : [
+                {
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data: {{ pieData|safe }}
+                }
+            ],
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        if(option&& typeof option == 'object'){
+            ch1.setOption(option);
+        }
+
+
+        var ch2 = echarts.init(document.getElementById('chart2'));
+        //堆叠折线图
+        var option2 = {
+            title: {
+                text: {{ stackTitle|safe }},
+                x:'center'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                left: 'left',
+                data: {{ branchNames |safe }}
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: {{ timeAxis|safe }}
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: {{ lineStackData|safe }}
+        };
+
+        if(option2&& typeof option2 == 'object'){
+            ch2.setOption(option2);
+        }
+    </script>
+</body>
+</html>

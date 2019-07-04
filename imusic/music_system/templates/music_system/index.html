@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+    <style>
+        /*.bg1,.bg2{width:230px;height:200px; display:block; text-align:center;margin-bottom:10px;}
+        .bg0,.bg3{width:280px;height:80px;display:block;margin:10px auto 0 auto;text-align:center;}
+        */
+        .bg0{width:200px;height:100px;display:block;text-align:center;margin:10px auto 0 auto;overflow:hidden;border-radius:4px;}
+        .bg1{width:200px;height:100px;display:block;text-align:center;margin:10px auto 0 auto;overflow:hidden;border-radius:4px;}
+        .bg2{width:200px;height:100px;display:block;text-align:center;margin:10px auto 0 auto;overflow:hidden;border-radius:4px;}
+        
+        .bg0{background:rgb(17, 24, 15) url(bt010.gif) no-repeat center center;margin-bottom:10px}
+        .bg1{float:left; background:rgb(17, 24, 15) url(images2/bt011.gif) no-repeat center center;}
+        .bg2{float:right;background:rgb(17, 24, 15) url(images2/bt012.gif) no-repeat center center;}
+        
+        .bg0:hover{background:#fe8e42 url(bt010.gif) no-repeat center center;}
+        .bg1:hover{background:#fe8e42 url(images2/bt011.gif) no-repeat center center;}
+        .bg2:hover{background:#fe8e42 url(images2/bt012.gif) no-repeat center center;}
+
+        .bg0{position:absolute;left:22%;top:40%;font-size:20px;color:white;font-family:-apple-system;font-weight:bold;}
+        .bg1{position:absolute;left:42%;top:40%;font-size:20px;color:white;font-family:-apple-system;font-weight:bold;}
+        .bg2{position:absolute;left:62%;top:40%;font-size:20px;color:white;font-family:-apple-system;font-weight:bold;}
+
+        .bg0:link{text-decoration:none;text-align:center;}
+        .bg1:link{text-decoration:none;}
+        .bg2:link{text-decoration:none;}
+
+        .text0{position:absolute;top:44%;left:26%;}
+        .text0{font-size:20px;font-weight:bold;color:white;font-family:-apple-system;}
+
+        .text1{position:absolute;top:44%;left:47.5%;}
+        .text1{font-size:20px;font-weight:bold;color:white;font-family:-apple-system;}
+
+        .text2{position:absolute;;top:44%;left:67%;}
+        .text2{font-size:20px;font-weight:bold;color:white;font-family:-apple-system;}
+
+    </style>
+
+    <h1 style="font-family:'Trebuchet MS';color:rgb(17, 24, 15);text-align:center;margin:5em auto 0 auto;margin-bottom:40px;">
+        Music System
+    </h1>
+    <div>
+        <a href="{% url 'music_system:search_music' %}" class="bg0"></a>
+        <p class="text0">Music</p>
+    </div>
+    <div>
+        <a href="{% url 'music_system:profile' %}" class="bg1"></a>
+        <p class="text1">Artist</p>
+    </div>
+    <div>
+        <a href="{% url 'music_system:profile' %}" class="bg2"></a>
+        <p class="text2">User</p>
+    </div>
+</body>
+</html>
