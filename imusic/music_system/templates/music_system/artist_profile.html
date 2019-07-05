@@ -40,13 +40,46 @@
 
         {% if musics %}
         <h3>Your music</h3>
+        <form name="form1" style="margin-top:20px;">
+            <div class="row">
+                <div class="form-group col-md4" style="margin-left:35px;margin-right:10px">
+                    <label for="formGroupExampleInput">id</label>
+                    <input class="form-control" type="text" name="musicId" value=""/>
+                </div>
+                <div class="form-group col-md4" style="margin-left:35px;margin-right:10px">
+                    <label for="formGroupExampleInput">name</label>
+                    <input class="form-control" type="text" name="name" value=""/>
+                </div>
+                <div class="form-group col-md4" style="margin-left:35px;margin-right:10px">
+                    <label for="formGroupExampleInput">is vip</label>
+                    <select class="form-control" name="isVip">
+                        <option value="1" >Yes</option>
+                        <option value="0" >No</option>
+                        <option value="2" selected="selected">All</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <div class="btn-group" style="margin-top:32px">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">operation
+                            <span class="caret"></span>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="navbarDrop">
+                            <input class="dropdown-item" type="submit" value="search" onclick="form1.action= '{% url 'music_system:artist_search_music'%}';"/>
+                            <input class="dropdown-item" type="submit" value="delete" onclick="form1.action= '{% url 'music_system:artist_delete_music'%}';"/>
+                            <input class="dropdown-item" type="submit" value="update" onclick="form1.action= '{% url 'music_system:artist_update_music'%}';"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
         <table style="margin-top:25px;margin-left:25px;width:65%;" class="table table-hover table-bordered">
             <thead>
                 <tr>
-                    <th style="width:25%">id</th>
-                    <th style="width:25%">name</th>
-                    <th style="width:25%">album</th>
-                    <th style="width:25%">artist</th>
+                    <th style="width:20%">id</th>
+                    <th style="width:20%">name</th>
+                    <th style="width:20%">album</th>
+                    <th style="width:20%">artist</th>
+                    <th style="width:20%">isVip</th>
                 </tr>
             </thead>
             <tbod>
@@ -66,6 +99,7 @@
                     </ul>
 
                 </td>
+                <td> {{music.isVip}}</td>
             </tr>
             {% endfor %}
             </tbody>

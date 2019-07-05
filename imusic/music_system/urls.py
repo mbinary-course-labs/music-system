@@ -25,8 +25,13 @@ urlpatterns = [
 
     # user logged in
     path('user_profile', views.user_profile, name='user_profile'),
-    path('artist_profile', views.artist_profile, name='artist_profile'),
     path('profile', views.profile, name='profile'),
+
+    # artist
+    path('artist_profile', views.artist_profile, name='artist_profile'),
+    path('artist/search', views.artist_search_music, name='artist_search_music'),
+    path('artist/delete', views.artist_delete_music, name='artist_delete_music'),
+    path('artist/update', views.artist_update_music, name='artist_update_music'),
 ]
 '''
 # authentication

@@ -37,7 +37,7 @@ def index(req):
 
 
 # music
-music_attrs = ['musicId', 'name', 'isVip']
+music_attrs = ['musicId', 'name', 'isVip','artist__name']
 
 
 def search_music(req):
@@ -125,6 +125,86 @@ def artist_profile(req):
         for m in context['albums']:
             m.artists = m.artist.all()
     return render(req, 'music_system/artist_profile.html', context)
+
+
+@login_required
+@user_passes_test(check)
+def artist_search_music(req):
+    context = {}
+    name = req.user.username
+    u = artist.objects.get(artistId=name)
+    if not u:
+        context['info'] = 'Internal error, your data may be removed'
+    else:
+        context['artist'] = u
+        # many to many field, search as this
+        dic = {attr: req.GET[attr]
+               for attr in music_attrs if attr in req.GET and req.GET[attr]}
+        dic['artist__artistId'] = name
+        if 'isVip' in dic:
+            if dic['isVip'] == '2':
+                del dic['isVip']
+            else:
+                dic['isVip'] = dic['isVip'] == '1'
+        context['musics'] = music.objects.filter(**dic)
+        for m in context['musics']:
+            m.artists = m.artist.all()
+        context['albums'] = album.objects.filter(artist__artistId=name)
+        for m in context['albums']:
+            m.artists = m.artist.all()
+    return render(req, 'music_system/artist_profile.html', context)
+
+
+@login_required
+@user_passes_test(check)
+def artist_delete_music(req):
+    context = {}
+    name = req.user.username
+    u = artist.objects.get(artistId=name)
+    if not u:
+        context['info'] = 'Internal error, your data may be removed'
+    else:
+        context['artist'] = u
+        # many to many field, search as this
+        dic = {attr: req.GET[attr]
+               for attr in music_attrs if attr in req.GET and req.GET[attr]}
+        dic['artist__artistId'] = name
+        if 'isVip' in dic:
+            if dic['isVip'] == '2':
+                del dic['isVip']
+            else:
+                dic['isVip'] = dic['isVip'] == '1'
+        dic['artist__artistId'] = name
+        music.objects.filter(**dic).delete()
+        context['musics'] = music.objects.filter(artist__artistId=name)
+        for m in context['musics']:
+            m.artists = m.artist.all()
+        context['albums'] = album.objects.filter(artist__artistId=name)
+        for m in context['albums']:
+            m.artists = m.artist.all()
+        return render(req, 'music_system/artist_profile.html', context)
+
+
+@login_required
+@user_passes_test(check)
+def artist_update_music(req):
+    context = {}
+    name = req.user.username
+    u = artist.objects.get(artistId=name)
+    if not u:
+        context['info'] = 'Internal error, your data may be removed'
+    else:
+        context['artist'] = u
+        # many to many field, search as this
+        dic = {attr: req.GET[attr]
+               for attr in music_attrs if attr in req.GET and req.GET[attr]}
+        if 'isVip' in dic:
+            if dic['isVip'] == '2':
+                del dic['isVip']
+            else:
+                dic['isVip'] = dic['isVip'] == '1'
+        music.objects.filter(musicId=dic['musicId']).update(**dic)
+        return artist_profile(req)
 
 
 @login_required
